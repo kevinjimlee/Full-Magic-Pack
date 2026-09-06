@@ -211,7 +211,7 @@ keyword:
 	keyword: Regeneration
 	match: Regenerate
 	mode: action
-	reminder: The next time {this_or_that("permanent")} would be destroyed this turn, it isn’t.{if has_pt() then " Instead tap it, remove all damage from it, and remove it from combat." else " Instead tap it."}
+	reminder: The next time {this_or_that("type")} would be destroyed this turn, it isn’t.{if has_pt() then " Instead tap it, remove all damage from it, and remove it from combat." else " Instead tap it."}
 # Legends
 keyword:
 	keyword: Bands with other
@@ -228,7 +228,7 @@ keyword:
 	keyword: Cumulative upkeep
 	match: Cumulative upkeep <atom-param>cost</atom-param>
 	mode: old
-	reminder: At the beginning of your upkeep, put an age counter on {this_or_that("permanent")}, then sacrifice it unless you pay its upkeep cost for each age counter on it.
+	reminder: At the beginning of your upkeep, put an age counter on {this_or_that("type")}, then sacrifice it unless you pay its upkeep cost for each age counter on it.
 # Mirage
 keyword:
 	keyword: Phasing
@@ -285,7 +285,7 @@ keyword:
 	keyword: Fading
 	match: Fading <atom-param>number</atom-param>
 	mode: expert
-	reminder: This {if has_pt() then "creature" else "permanent"} enters with {english_number_a(param1)} fade counter(s) on it. At the beginning of your upkeep, remove a fade counter from it. If you can’t, sacrifice it.
+	reminder: {this_or_that("type", upper:true)} enters with {english_number_a(param1)} fade counter(s) on it. At the beginning of your upkeep, remove a fade counter from it. If you can’t, sacrifice it.
 # Invasion
 keyword:
 	keyword: Kicker
@@ -393,7 +393,7 @@ keyword:
 	keyword: Sunburst
 	match: Sunburst
 	mode: expert
-	reminder: This enters with a {if has_pt() then "+1/+1" else "charge"} counter on it for each color of mana spent to cast it.
+	reminder: {this_or_that("type", upper:true)} enters with a {if has_pt() then "+1/+1" else "charge"} counter on it for each color of mana spent to cast it.
 # Champions of Kamigawa
 keyword:
 	keyword: Splice
@@ -462,7 +462,7 @@ keyword:
 	keyword: Channel
 	match: Channel
 	mode: pseudo
-	rules: Channel — [cost], Discard ~: [effect].
+	rules: Channel — [cost], Discard this card: [effect].
 keyword:
 	keyword: Sweep
 	match: Sweep
@@ -499,7 +499,7 @@ keyword:
 	keyword: Bloodthirst
 	match: Bloodthirst <atom-param>number</atom-param>
 	mode: expert
-	reminder: If an opponent was dealt damage this turn, this {if has_pt() then "creature" else "permanent"} enters with {english_number_a(param1)} +1/+1 counter(s) on it.
+	reminder: If an opponent was dealt damage this turn, {this_or_that("type")} enters with {english_number_a(param1)} +1/+1 counter(s) on it.
 keyword:
 	keyword: Replicate
 	match: Replicate <atom-param>cost</atom-param>
@@ -510,12 +510,13 @@ keyword:
 	keyword: Graft
 	match: Graft <atom-param>number</atom-param>
 	mode: expert
-	reminder: {this_or_that("permanent", upper:true)} enters with {english_number_a(param1)} +1/+1 counter(s) on it. Whenever {if has_pt() then "another" else "a"} creature enters, you may move a +1/+1 counter from {this_or_that("permanent")} onto it.
+	reminder: {this_or_that("type", upper:true)} enters with {english_number_a(param1)} +1/+1 counter(s) on it. Whenever {if has_pt() then "another" else "a"} creature enters, you may move a +1/+1 counter from {this_or_that("type")} onto it.
 keyword:
 	keyword: Forecast
-	match: Forecast — <atom-param>action</atom-param>, Reveal <atom-param>name</atom-param> from your hand: <atom-param>action</atom-param>
+	match: Forecast —
 	mode: expert
 	reminder: Activate only during your upkeep and only once each turn.
+	rules: Forecast — [cost], Reveal this card from your hand: [effect].
 keyword:
 	keyword: Hellbent
 	match: Hellbent
@@ -553,7 +554,7 @@ keyword:
 	keyword: Vanishing
 	match: Vanishing <atom-param>number</atom-param>
 	mode: expert
-	reminder: {this_or_that("permanent", upper:true)} enters with {english_number_a(param1)} time counter(s) on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.
+	reminder: {this_or_that("type", upper:true)} enters with {english_number_a(param1)} time counter(s) on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.
 # Future Sight
 keyword:
 	keyword: Deathtouch
@@ -569,12 +570,12 @@ keyword:
 	keyword: Gravestorm
 	match: Gravestorm
 	mode: expert
-	reminder: When you cast this spell, copy it for each permanent put into a graveyard from the battlefield this turn.{ if is_targeted() then " You may choose new targets for the copies." }
+	reminder: When you cast this spell, copy it for each permanent put into a graveyard from the battlefield this turn.{ if is_targeted() then " You may choose new targets for the copies." }{if not is_spell(card.type) then " Copies become tokens."}
 keyword:
 	keyword: Lifelink
 	match: Lifelink
 	mode: core
-	reminder: Damage dealt by this { if has_pt() then "creature" else if is_spell() then "spell" else "permanent" } also causes you to gain that much life.
+	reminder: Damage dealt by this {if is_spell() then "spell" else this_or_that("type")} also causes you to gain that much life.
 keyword:
 	keyword: Absorb
 	match: Absorb <atom-param>number</atom-param>
@@ -593,7 +594,7 @@ keyword:
 	keyword: Transfigure
 	match: Transfigure <atom-param>cost</atom-param>
 	mode: expert
-	reminder: {param1}, Sacrifice {this_or_that("permanent")}: Search your library for a creature card with the same mana value as {this_or_that("permanent")}, put that card onto the battlefield, then shuffle. Transfigure only as a sorcery.
+	reminder: {param1}, Sacrifice {this_or_that("type")}: Search your library for a creature card with the same mana value as {this_or_that("type")}, put that card onto the battlefield, then shuffle. Transfigure only as a sorcery.
 keyword:
 	keyword: Aura swap
 	match: Aura swap <atom-param>cost</atom-param>
@@ -618,7 +619,7 @@ keyword:
 	keyword: Shroud
 	match: Shroud
 	mode: core
-	reminder: {this_or_that("permanent", upper:true)} can’t be the target of spells or abilities.
+	reminder: {this_or_that("type", upper:true)} can’t be the target of spells or abilities.
 keyword:
 	keyword: Fortify
 	match: Fortify <atom-param>cost</atom-param>
@@ -639,7 +640,7 @@ keyword:
 	keyword: Champion
 	match: Champion <atom-param>a</atom-param> <atom-param>name</atom-param>
 	mode: expert
-	reminder: When {this_or_that("permanent")} enters, sacrifice it unless you exile another {param2} you control. When {this_or_that("permanent")} leaves the battlefield, that card returns to the battlefield.
+	reminder: When {this_or_that("type")} enters, sacrifice it unless you exile another {param2} you control. When {this_or_that("type")} leaves the battlefield, that card returns to the battlefield.
 keyword:
 	keyword: Clash
 	match: Clash
@@ -660,7 +661,7 @@ keyword:
 	keyword: Prowl
 	match: Prowl <atom-param>cost</atom-param>
 	mode: expert
-	reminder: You may cast this for its prowl cost if you dealt combat damage to a player this turn with a {separate_words(spacer: " or ", card.sub_type)}.
+	reminder: You may cast this spell for its prowl cost if you dealt combat damage to a player this turn with a {separate_words(spacer: " or ", card.sub_type)}.
 keyword:
 	keyword: Reinforce
 	match: Reinforce <atom-param>number</atom-param>—<atom-param>cost</atom-param>
@@ -708,7 +709,7 @@ keyword:
 	keyword: Devour
 	match: Devour <atom-param>number</atom-param>
 	mode: expert
-	reminder: As this enters, you may sacrifice any number of creatures. {this_or_that("creature", upper:true)} enters with { if param1.value == "1" then "" else if param1.value == "2" then "twice " else english_number(param1) + " times " }that many +1/+1 counters on it.
+	reminder: As {this_or_that("creature", upper:false)} enters, you may sacrifice any number of creatures. {this_or_that("creature", upper:true)} enters with { if param1.value == "1" then "" else if param1.value == "2" then "twice " else english_number(param1) + " times " }that many +1/+1 counters on it.
 keyword:
 	keyword: Exalted
 	match: Exalted
@@ -762,14 +763,9 @@ keyword:
 	reminder: If you cast this spell from your hand, exile it as it resolves. At the beginning of your next upkeep, you may cast this card from exile without paying its mana cost.
 keyword:
 	keyword: Umbra armor
-	match: Totem armor
-	mode: expert
-	reminder: If enchanted {if contains(card.text, match:"Enchant <param-name>creature</param-name>") then "creature" else "permanent"} would be destroyed, instead remove all damage from it and destroy this Aura.
-keyword:
-	keyword: Umbra armor
 	match: Umbra armor
 	mode: expert
-	reminder: If enchanted {if contains(card.text, match:"Enchant <param-name>creature</param-name>") then "creature" else "permanent"} would be destroyed, instead remove all damage from it and destroy this Aura.
+	reminder: If enchanted {et := enchant_target(card.text); if et == "" then "permanent" else et} would be destroyed, instead remove all damage from it and destroy this Aura.
 keyword:
 	keyword: Level up
 	match: Level up <atom-param>cost</atom-param>
@@ -813,12 +809,12 @@ keyword:
 	keyword: Hexproof from
 	match: Hexproo<atom-param>name</atom-param> from <atom-param>name</atom-param>
 	mode: core
-	reminder: This {if has_pt() then "creature" else "permanent"} can't be the target of {param2} spells or abilities your opponents control.
+	reminder: {this_or_that("type", upper:true)} can't be the target of {param2} spells or abilities your opponents control.
 keyword:
 	keyword: Hexproof
 	match: Hexproof
 	mode: core
-	reminder: This { if has_pt() then "creature" else "permanent"} can't be the target of spells or abilities your opponents control.
+	reminder: {this_or_that("type", upper:true)} can't be the target of spells or abilities your opponents control.
 # Innistrad
 keyword:
 	keyword: Morbid
@@ -915,7 +911,7 @@ keyword:
 	keyword: Indestructible
 	match: Indestructible
 	mode: core
-	reminder: {if has_pt() then "Damage and effects" else "Effects"} that say "destroy" don't destroy this {if has_pt() then "creature" else if is_artifact(card.super_type) then "artifact" else "permanent"}.
+	reminder: {if has_pt() then "Damage and effects" else "Effects"} that say "destroy" don't destroy {this_or_that("type")}.
 # Theros
 keyword:
 	keyword: Hero's reward
@@ -931,7 +927,7 @@ keyword:
 	keyword: Heroic
 	match: Heroic
 	mode: pseudo
-	rules: Heroic — Whenever you cast a spell that targets ~, [effect].
+	rules: Heroic — Whenever you cast a spell that targets this creature, [effect].
 keyword:
 	keyword: Bestow
 	match: Bestow <atom-param>cost</atom-param>
@@ -958,13 +954,13 @@ keyword:
 	keyword: Inspired
 	match: Inspired
 	mode: pseudo
-	rules: Inspired — Whenever ~ becomes untapped, [effect].
+	rules: Inspired — Whenever {this_or_that("type")} becomes untapped, [effect].
 # Journey into Nyx
 keyword:
 	keyword: Constellation
 	match: Constellation
 	mode: pseudo
-	rules: Constellation — Whenever ~ or another enchantment you control enters, [effect].
+	rules: Constellation — Whenever this enchantment or another enchantment you control enters, [effect].
 keyword:
 	keyword: Strive
 	match: Strive
@@ -996,7 +992,7 @@ keyword:
 	keyword: Outlast
 	match: Outlast <atom-param>cost</atom-param>
 	mode: expert
-	reminder: {param1}, <sym>T</sym>: Put a +1/+1 counter on {this_or_that("creature")}. Outlast only as a sorcery.
+	reminder: {param1}, <sym>T</sym>: Put a +1/+1 counter on {this_or_that("type")}. Outlast only as a sorcery.
 keyword:
 	keyword: Prowess
 	match: Prowess
@@ -1039,7 +1035,7 @@ keyword:
 	keyword: Exploit
 	match: Exploit
 	mode: expert
-	reminder: When {this_or_that("creature")} enters, you may sacrifice a creature.
+	reminder: When {this_or_that("type")} enters, you may sacrifice a creature.
 keyword:
 	keyword: Formidable
 	match: Formidable
@@ -1097,7 +1093,7 @@ keyword:
 	keyword: Myriad
 	match: Myriad
 	mode: expert
-	reminder: Whenever {this_or_that("creature")} attacks, for each opponent other than defending player, you may create a token that's a copy of {this_or_that("creature")} that's tapped and attacking that player or a planeswalker they control. Exile the tokens at end of combat.
+	reminder: Whenever {this_or_that("creature")} attacks, for each opponent other than defending player, you may create a token copy of {this_or_that("creature")} that's tapped and attacking that player or a planeswalker they control. Exile the tokens at end of combat.
 # Oath of the Gatewatch
 keyword:
 	keyword: Surge
@@ -1172,13 +1168,13 @@ keyword:
 	keyword: Fabricate
 	match: Fabricate <atom-param>number</atom-param>
 	mode: expert
-	reminder: When {this_or_that("permanent")} enters, put {english_number_a(param1)} +1/+1 counter(s) on it or create {english_number_a(param1)} 1/1 colorless Servo artifact creature token(s).
+	reminder: When {this_or_that("type")} enters, put {english_number_a(param1)} +1/+1 counter(s) on it or create {english_number_a(param1)} 1/1 colorless Servo artifact creature token(s).
 # Commander 2016
 keyword:
 	keyword: Partner with
 	match: Partne<atom-param>name</atom-param> with <atom-param>name</atom-param>
 	mode: expert
-	reminder: When this {if has_pt() then "creature" else "permanent"} enters, target player may put {legend_filter(param2)} into their hand from their library, then shuffle.
+	reminder: When {this_or_that("type")} enters, target player may put {legend_filter(param2)} into their hand from their library, then shuffle.
 keyword: 
 	keyword: Partner-Group
 	match: Partner—<atom-param>name</atom-param>
@@ -1220,7 +1216,7 @@ keyword:
 	keyword: Exert
 	match: exert
 	mode: action
-	reminder: An exerted {if has_pt() then "creature" else "permanent"} won't untap during your next untap step.
+	reminder: An exerted {if has_pt() then "creature" else if is_artifact(card.super_type) then "artifact" else "permanent"} won't untap during your next untap step.
 #Hour of Devastation
 keyword:
 	keyword: Afflict
@@ -1248,7 +1244,7 @@ keyword:
 	keyword: Explore
 	match: explores
 	mode: action
-	reminder: {handle_action_rt(to:"explore", "Reveal")} the top card of your library. Put that card into your hand if it's a land. Otherwise, put a +1/+1 counter on face_if_ruletext_flipthis_explores_then_that creature_else_{this_or_that("creature")}_end, then put the card back or put it into your graveyard.
+	reminder: {handle_action_rt(to:"have this creature explore", "Reveal")} the top card of your library. Put that card into your hand if it's a land. Otherwise, put a +1/+1 counter on face_if_ruletext_flipthis_explores_then_that creature_else_{this_or_that("creature")}_end, then put the card back or put it into your graveyard.
 #Unstable
 keyword:
 	keyword: Assemble a Contraption
@@ -1424,9 +1420,10 @@ keyword:
 	reminder: If you cast this spell for its mutate cost, put it over or under target non-Human creature you own. They mutate into the creature on top plus all abilities from under it.
 keyword:
 	keyword: Companion
-	match: Companion — <atom-param>name</atom-param>
+	match: Companion —
 	mode: expert
 	reminder: If this card is your chosen companion, you may put it into your hand from outside the game for [3] as a sorcery.
+	rules: Companion — [condition].
 #Magic 2021
 keyword:
 	keyword: Mill
@@ -1476,7 +1473,7 @@ keyword:
 	keyword: Ward
 	match: Ward <atom-param>cost</atom-param>
 	mode: expert
-	reminder: Whenever {this_or_that("permanent")} becomes the target of a spell or ability an opponent controls, counter it unless that player {for_mana_costs(add:"pays ", non:"", param1, action:true)}.
+	reminder: Whenever {this_or_that("type")} becomes the target of a spell or ability an opponent controls, counter it unless that player {for_mana_costs(add:"pays ", non:"", param1, action:true)}.
 keyword:
 	keyword: Magecraft
 	match: Magecraft
@@ -1487,7 +1484,7 @@ keyword:
 	keyword: Devour type
 	match: Devour <atom-param>one_word</atom-param> <atom-param>number</atom-param>
 	mode: expert
-	reminder: As this enters the battlefield, you may sacrifice any number of {english_plural(param1.value)}. {this_or_that("creature", upper:true)} enters the battlefield with { if param2.value == "1" then "" else if param2.value == "2" then "twice " else english_number(param2) + " times " }that many +1/+1 counters on it.
+	reminder: As {this_or_that("creature", upper:false)} enters, you may sacrifice any number of {english_plural(param1.value)}. {this_or_that("creature", upper:true)} enters with { if param2.value == "1" then "" else if param2.value == "2" then "twice " else english_number(param2) + " times " }that many +1/+1 counters on it.
 keyword:
 	keyword: Trample over
 	match: Trample over <atom-param>name</atom-param>
@@ -1588,12 +1585,12 @@ keyword:
 	keyword: Connives N
 	match: connives <atom-param>number</atom-param>
 	mode: action
-	reminder: {handle_action_rt(to:"have a creature connive", "Draw")} {english_number_a(param1)} card(s), then discard {english_number_a(param1)} card(s). Put a +1/+1 counter on face_if_ruletext_flipthis_connives_then_that creature_else_{this_or_that("creature")}_end for each nonland card discarded this way.
+	reminder: {handle_action_rt(to:"have a creature connive {param1}", "Draw")} {english_number_a(param1)} card(s), then discard {english_number_a(param1)} card(s). Put a +1/+1 counter on face_if_ruletext_flipthis_connives_then_that creature_else_{this_or_that("creature")}_end for each nonland card discarded this way.
 keyword:
 	keyword: Blitz
 	match: Blitz <atom-param>cost</atom-param>
 	mode: expert
-	reminder: If you cast this spell for its blitz cost, it gains haste and "When this creature dies, draw a card". Sacrifice it at the beginning of the next end step.
+	reminder: If you cast this spell for its blitz cost, it gains haste and "When this creature dies, draw a card." Sacrifice it at the beginning of the next end step.
 keyword:
 	keyword: Shield counter
 	match: shield counter
@@ -1631,7 +1628,7 @@ keyword:
 	keyword: Squad
 	match: Squad <atom-param>cost</atom-param>
 	mode: expert
-	reminder: As an additional cost to cast this spell, you may pay {param1} any number of times. When this creature enters, create that many tokens that are copies of it.
+	reminder: As an additional cost to cast this spell, you may pay {param1} any number of times. When {this_or_that("type")} enters, create that many tokens that are copies of it.
 keyword:
 	keyword: Ravenous
 	match: Ravenous
@@ -1647,7 +1644,7 @@ keyword:
 	keyword: Enlist
 	match: Enlist
 	mode: expert
-	reminder: As this creature attacks, you may tap a nonattacking creature you control without summoning sickness. When you do, add its power to this creature's until end of turn.
+	reminder: As {this_or_that("creature")} attacks, you may tap a nonattacking creature you control without summoning sickness. When you do, add its power to {this_or_that("creature")}'s until end of turn.
 keyword:
 	keyword: Stun counters
 	match: stun counte<atom-param>*s</atom-param>
@@ -1689,7 +1686,7 @@ keyword:
 	keyword: Toxic
 	mode: expert
 	match: Toxic <atom-param>number</atom-param>
-	reminder: Players dealt combat damage by this creature also get {english_number_a(param1)} poison counter(s).
+	reminder: Players dealt combat damage by {this_or_that("creature")} also get {english_number_a(param1)} poison counter(s).
 # March of the Machine
 keyword:
 	keyword: Backup
@@ -1828,9 +1825,10 @@ keyword:
 	reminder: You may cast this card face down for [3] as a 2/2 creature with ward [2]. Turn it face up any time for its disguise cost.
 keyword:
 	keyword: To solve
-	match: To solve — <atom-param>name</atom-param>
+	match: To solve —
 	mode: expert
 	reminder: If unsolved, solve at the beginning of your end step.
+	rules: To solve — [condition].
 keyword:
 	keyword: Suspect
 	match: suspect
@@ -1980,15 +1978,16 @@ keyword:
 	reminder: If you have no speed, it starts at 1. It increases once on each of your turns when an opponent loses life. Max speed is 4.
 keyword:
 	keyword: Exhaust
-	match: Exhaust — <atom-param>cost</atom-param>: <atom-param>action</atom-param>
+	match: Exhaust —
 	mode: expert
 	reminder: Activate each exhaust ability only once.
+	rules: Exhaust — [cost]: [effect].
 #Tarkir: Dragonstorm
 keyword:
 	keyword: Behold
 	match: behold <atom-param>a</atom-param> <atom-param>name</atom-param>
 	mode: action
-	reminder: To behold {param1} {param2}, choose {param1} {param2} you control or reveal {param1} {param2} card from your hand.
+	reminder: {handle_action_rt(to:"behold {param1.value} {param2.value}", "Choose")} {param1} {param2} you control or reveal {param1} {param2} card from your hand.
 keyword:
 	keyword: Endure
 	match: endures <atom-param>number</atom-param>
@@ -2040,7 +2039,7 @@ keyword:
 	keyword: Lander token
 	match: Lander toke<atom-param>*s</atom-param>
 	mode: expert
-	reminder: {handle_merged_rt(if param1.value == "ns" then "They’re artifacts" else "It’s an artifact", moved:"A Lander token is an artifact")} with "[2], [T], Sacrificie this token: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
+	reminder: {handle_merged_rt(if param1.value == "ns" then "They’re artifacts" else "It’s an artifact", moved:"A Lander token is an artifact")} with "[2], [T], Sacrifice this token: Search your library for a basic land card, put it onto the battlefield tapped, then shuffle."
 keyword:
 	keyword: Void
 	match: Void
@@ -2089,12 +2088,17 @@ keyword:
 	match: Waterbend <atom-param>mana</atom-param>
 	mode: action
 	reminder: While paying a waterbend cost, you can tap your artifacts and creatures to help. Each one pays for [1].
-#Marvel Superheroes
+#Lorwyn Eclipsed
 keyword:
-	keyword: Power-up
-	match: Power-up — <atom-param>cost</atom-param>: <atom-param>action</atom-param>
-	mode: expert
-	reminder: Activate each power-up ability only once. Reduce the cost by {this_or_that("creature")}'s mana cost if it entered this turn.
+	keyword: Blight
+	match: blight <atom-param>number</atom-param>
+	mode: action
+	reminder: {handle_action_rt(to:"blight ]{param1.value}[", "Put")} {english_number_a(param1)} -1/-1 counter(s) on a creature you control.
+keyword:
+	keyword: Vivid
+	match: Vivid
+	mode: pseudo
+	rules: Vivid — [effect] the number of colors among permanents you control.
 #TMNT
 keyword:
 	keyword: Sneak
@@ -2106,3 +2110,89 @@ keyword:
 	match: Mutagen toke<atom-param>*s</atom-param>
 	mode: expert
 	reminder: {handle_merged_rt(if param1.value == "ns" then "They’re artifacts" else "It’s an artifact", moved:"A Mutagen token is an artifact")} with "[1], [T], Sacrifice this token: Put a +1/+1 counter on target creature. Activate only as a sorcery."
+keyword:
+	keyword: Disappear
+	match: Disappear
+	mode: pseudo
+	rules: Disappear - [Something], if a permanent left the battlefield under your control this turn, [effect].
+#Secrets of Strixhaven
+keyword:
+	keyword: Paradigm
+	match: Paradigm
+	mode: expert
+	reminder: Then exile this spell. After you first resolve a spell with this name, you may cast a copy of it from exile without paying its mana cost at the beginning of each of your first main phases.
+keyword:
+	keyword: Prepared
+	match: prepared
+	mode: action
+	reminder: While it's prepared, you may cast a copy of its spell. Doing so unprepares it.
+keyword:
+	keyword: Increment
+	match: Increment
+	mode: expert
+	reminder: Whenever you cast a spell, if the amount of mana you spent is greater than {this_or_that("creature")}'s power or toughness, put a +1/+1 counter on {this_or_that("creature")}.
+keyword:
+	keyword: Infusion
+	match: Infusion
+	mode: pseudo
+	rules: Infusion — [effect] if you gained life this turn.
+keyword:
+	keyword: Opus
+	match: Opus
+	mode: pseudo
+	rules: Opus — Whenever you cast an instant or sorcery spell, [effect]. If five or more mana was spent to cast that spell, [additional effect].
+keyword:
+	keyword: Repartee
+	match: Repartee
+	mode: pseudo
+	rules: Repartee — Whenever you cast an instant or sorcery spell that targets a creature, [effect].
+#Marvel Super Heroes
+keyword:
+	keyword: Power-up
+	match: Power-up —
+	mode: expert
+	rules: Power-up — [cost]: [effect].
+	reminder: Activate each power-up ability only once. Reduce the cost by {this_or_that("creature")}'s mana cost if it entered this turn.
+keyword:
+	keyword: Teamwork
+	match: Teamwork <atom-param>number</atom-param>
+	mode: expert
+	reminder: As an additional cost to cast this spell, you may tap any number of creatures you control with total power {param1} or more.
+keyword:
+	keyword: worthy
+	match: worthy
+	mode: expert
+	reminder: A creature is worthy if it's a legendary non-Villain that's red and/or white.
+keyword:
+	keyword: Vibranium token
+	match: Vibranium toke<atom-param>*s</atom-param>
+	mode: expert
+	reminder: {handle_merged_rt(if param1.value == "ns" then "They’re artifacts" else "It’s an artifact", moved:"A Vibranium token is an artifact")} with indestructible and "[T]: Add [C]. This mana can't be spent to cast a nonartifact spell."
+#The Hobbit
+keyword:
+	keyword: Storied
+	match: Storied
+	mode: expert
+	reminder: If you control three or more artifacts, legendaries, and/or Sagas, you have an enduring story for the rest of the game.
+keyword:
+	keyword: Recruit
+	match: recruit
+	mode: action
+	reminder: {handle_action_rt(to:"recruit", "Draw")} a card, then discard a card. If you discarded a nonland card, create a 1/1 white Human Soldier creature token.
+keyword:
+	keyword: Hone counters
+	match: hone counte<atom-param>*s</atom-param>
+	mode: expert
+	reminder: Each hone counter on an Equipment grants +1/+0 to equipped creature.
+#Mystery Booster
+keyword:
+	keyword: Rulebreaker
+	match: Rulebreaker
+	mode: pseudo
+	rules: Rulebreaker — A deck with this commander [effect].
+#Reality Fracture
+keyword:
+	keyword: Heartwood token
+	match: Heartwood toke<atom-param>*s</atom-param>
+	mode: expert
+	reminder: {handle_merged_rt(if param1.value == "ns" then "They’re artifacts" else "It’s a red and green artifact", moved:"A Heartwood token is a red and green artifact")} with "[T]: Add [R] or [G]."
